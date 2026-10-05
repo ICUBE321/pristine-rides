@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pristine Rides
 
-## Getting Started
+Pristine Rides is a website for a professional vehicle-detailing service. It
+showcases detailing options and starting prices, and lets customers submit an
+appointment request with their contact details, vehicle information, preferred
+date, and service selection. Booking requests are sent through EmailJS.
 
-First, run the development server:
+The site is built with Next.js, React, and Tailwind CSS. The main pages are:
+
+- `/` — service overview and booking call to action
+- `/services` — detailing services
+- `/book` — appointment request form
+
+## Run locally
+
+### Requirements
+
+- Node.js 24 or later
+- npm
+
+Install the dependencies:
+
+```bash
+npm ci
+```
+
+To enable booking form submissions locally, create a `.env.local` file in the
+project root and set the EmailJS values:
+
+```dotenv
+NEXT_PUBLIC_SERVICE_ID=your_emailjs_service_id
+NEXT_PUBLIC_TEMPLATE_ID=your_emailjs_template_id
+NEXT_PUBLIC_EMAILJS_PUBLIC_API_KEY=your_emailjs_public_key
+```
+
+These `NEXT_PUBLIC_` values are made available to browser code. Use only the
+EmailJS public API key here; never put private credentials or secrets in a
+`NEXT_PUBLIC_` variable.
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Build and run for production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create an optimized production build:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the production server locally after building:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The production server uses port 3000 by default. Set the EmailJS environment
+variables in the environment where the application runs if booking submissions
+should be enabled.
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pristine Rides is deployed on [Vercel](https://vercel.com/). Configure the
+EmailJS environment variables in the Vercel project settings for deployments
+that need to send booking requests.
