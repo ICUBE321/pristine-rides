@@ -51,7 +51,7 @@ export default function Home() {
                   </h5>
                 </a>
                 <div className="flex justify-between">
-                  <h5 className="text-lg font-semibold">From $100</h5>
+                  <h5 className="text-lg font-semibold">From $140</h5>
                 </div>
               </div>
             </div>
