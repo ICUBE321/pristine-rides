@@ -1,24 +1,14 @@
 "use client";
 import { Navbar } from "@/components/navbar";
-import * as z from "zod";
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
+import {
+  validateAppointment,
+  sendEmail,
+  getMinimumDateTime,
+} from "@/components/booking";
 
 export default function Book() {
   const [bookingStatus, setBookingStatus] = useState(false);
-
-  const Appointment = z.object({
-    name: z.string().nonempty(),
-    email: z.email().nonempty(),
-    phone: z.string(),
-    make: z.string(),
-    model: z.string(),
-    year: z.string(),
-    service: z.string(),
-    date: z.string(),
-    message: z.string(),
-    promo: z.boolean(),
-  });
 
   const submitBooking = async (e) => {
     e.preventDefault();
@@ -35,17 +25,6 @@ export default function Book() {
     const date = new Date(formData.get("datetime")).toLocaleString();
     const message = formData.get("message");
     const promo = formData.has("remember");
-    console.log("user submission:");
-    // console.log(`name: ${name}`);
-    // console.log(`email: ${email}`);
-    // console.log(`phone: ${phone}`);
-    // console.log(`make: ${make}`);
-    // console.log(`model: ${model}`);
-    // console.log(`year: ${year}`);
-    // console.log(`service: ${service}`);
-    // console.log(`datetime: ${datetime}`);
-    // console.log(`message: ${message}`);
-    console.log(`receive promo: ${promo}`);
 
     const appointment = {
       name: name,
@@ -59,68 +38,26 @@ export default function Book() {
       message: message,
       promo: promo,
     };
-    try {
-      Appointment.parse(appointment);
-      const response = await sendEmail(appointment);
-      console.log(response);
-      if (response === 200) {
+
+    const appointmentValidated = validateAppointment(appointment);
+    if (appointmentValidated.success == true) {
+      const sendEmailResponse = await sendEmail(appointment);
+      if (sendEmailResponse.status == 200) {
         form.reset();
         setBookingStatus(true);
       } else {
-        console.log("Failed emailing");
+        console.error(
+          "Failed emailing with status: ",
+          sendEmailResponse.status,
+        );
+        console.error(sendEmailResponse.error);
       }
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        console.log(error.issues);
-        return;
-      }
+    } else {
+      appointmentValidated.issues
+        ? console.error(appointmentValidated.issues)
+        : console.error(appointmentValidated.error);
     }
   };
-
-  const sendEmail = async (appointment) => {
-    const serviceID = process.env.NEXT_PUBLIC_SERVICE_ID;
-    const templateID = process.env.NEXT_PUBLIC_TEMPLATE_ID;
-    const userID = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_API_KEY;
-
-    try {
-      const emailParams = {
-        name: appointment.name,
-        service: appointment.service,
-        date: appointment.date,
-        email: appointment.email,
-        phone: appointment.phone,
-        make: appointment.make,
-        model: appointment.model,
-        year: appointment.year,
-        message: appointment.message,
-        promo: appointment.promo ? "Yes" : "No",
-      };
-
-      const res = await emailjs.send(
-        serviceID,
-        templateID,
-        emailParams,
-        userID,
-      );
-      if (res.status === 200) {
-        console.log("Message sent successfully:", res.status, res.text);
-      }
-      return res.status;
-    } catch (error) {
-      console.error("Failed to send message: ", error);
-      return 404;
-    }
-  };
-
-  const minimumDateTime = new Date();
-  minimumDateTime.setDate(minimumDateTime.getDate() + 1);
-  minimumDateTime.setHours(0, 0, 0, 0);
-
-  const minDateTime = new Date(
-    minimumDateTime.getTime() - minimumDateTime.getTimezoneOffset() * 60_000,
-  )
-    .toISOString()
-    .slice(0, 16);
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
@@ -128,13 +65,15 @@ export default function Book() {
       <Navbar />
       {/* Header */}
       <div className="block bg-[url(/benz-interior.jpg)] bg-no-repeat bg-cover bg-left">
-        <div className="bg-linear-to-r from-black to-transparent py-16 px-14">
-          <div className="flex-col max-w-1/3">
-            <h2 className="text-sm">BOOK AN APPOINTMENT</h2>
-            <h5 className="text-4xl pt-4 pb-4 font-semibold tracking-tight text-heading leading-12">
+        <div className="bg-linear-to-r from-black to-transparent py-8 lg:py-16 px-7 lg:px-14">
+          <div className="flex-col lg:max-w-1/4">
+            <h2 className="text-lg lg:text-sm font-bold lg:font-normal">
+              BOOK AN APPOINTMENT
+            </h2>
+            <h5 className="mb-3 text-2xl lg:text-4xl pt-4 pb-4 font-semibold tracking-tight text-heading lg:leading-12">
               Schedule Your Detailing Appointment
             </h5>
-            <p className="text-body">
+            <p className="text-sm lg:text-lg lg:mb-6 w-3/4 lg:w-full">
               Fill out the form below and we&apos;ll get back to you as soon as
               possible to confirm your booking.
             </p>
@@ -144,14 +83,14 @@ export default function Book() {
       {bookingStatus ? (
         <div className="flex flex-col items-center p-6 mt-10 mb-10 text-electric-blue">
           <h2 className="text-4xl mb-10">Request Received</h2>
-          <p className="font-medium">
+          <p className="text-center font-medium">
             We&apos;ve received your appointment request. We&apos;ll contact you
             to confirm availability.
           </p>
         </div>
       ) : (
         <form
-          className="self-center-safe w-3xl shadow-md rounded-md p-6 mt-10 mb-10 text-black"
+          className="self-center-safe lg:w-3xl shadow-md rounded-md p-6 lg:mt-10 lg:mb-10 text-black"
           onSubmit={submitBooking}
         >
           <h2 className="font-bold text-xl mb-4">Appointment Request</h2>
@@ -202,7 +141,7 @@ export default function Book() {
                 id="phone"
                 name="phone"
                 className="border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body"
-                placeholder="(XXX) XXX-XXXX"
+                placeholder="+16134696082"
                 required
               />
             </div>
@@ -286,7 +225,7 @@ export default function Book() {
                 type="datetime-local"
                 id="datetime"
                 name="datetime"
-                min={minDateTime}
+                min={getMinimumDateTime()}
                 className="border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body"
                 placeholder="Select date and time"
                 required
