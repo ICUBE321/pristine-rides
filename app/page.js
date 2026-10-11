@@ -8,13 +8,15 @@ export default function Home() {
       <Navbar />
       {/* Header */}
       <div className="block bg-[url(/benz-interior.jpg)] bg-no-repeat bg-cover bg-left">
-        <div className="bg-linear-to-r from-black to-transparent py-16 px-14">
-          <div className="flex-col max-w-1/4">
-            <h2 className="text-sm">PREMIUM CAR DETAILING</h2>
-            <h5 className="mb-3 text-4xl pt-4 pb-4 font-semibold tracking-tight text-heading leading-12">
+        <div className="bg-linear-to-r from-black to-transparent py-8 lg:py-16 px-7 lg:px-14">
+          <div className="flex-col lg:max-w-1/4">
+            <h2 className="text-lg lg:text-sm font-bold lg:font-normal">
+              PREMIUM CAR DETAILING
+            </h2>
+            <h5 className="mb-3 text-2xl lg:text-4xl pt-4 pb-4 font-semibold tracking-tight text-heading lg:leading-12">
               A Cleaner Ride Is a Better Ride
             </h5>
-            <p className="text-body mb-6">
+            <p className="text-sm lg:text-lg lg:mb-6 w-3/4 lg:w-full">
               We bring out the best in your vehicles with professional detailing
               services that protect, restore and make it shine.
             </p>
@@ -26,18 +28,16 @@ export default function Home() {
         <h5 className="text-3xl font-semibold tracking-tight text-heading leading-12 text-center">
           Our Detailing Services
         </h5>
-        <p className="text-body mb-8 text-center text-lg text-gray-600">
+        <p className="mb-4 lg:mb-8 text-center text-lg text-gray-600">
           Professional care for every part of your vehicle.
         </p>
-        <div className="flex justify-around">
-          <div className="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm">
-            <a href="#">
-              <img
-                className="rounded-t-lg"
-                src="genesis-interior.jpg"
-                alt="Sedan image"
-              />
-            </a>
+        <div className="flex flex-col lg:flex-row items-center justify-normal lg:justify-around">
+          <div className="lg:max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm mb-4 lg:mb-0">
+            <img
+              className="rounded-t-lg"
+              src="genesis-interior.jpg"
+              alt="Sedan image"
+            />
             <div className="p-5">
               <img
                 className="w-10 h-10 rounded-full p-1"
@@ -45,25 +45,23 @@ export default function Home() {
                 alt="Rounded sedan avatar"
               />
               <div className="text-left">
-                <a href="#">
-                  <h5 className="mt-3 mb-6 text-2xl tracking-tight text-heading">
-                    Sedan Detailing
-                  </h5>
-                </a>
+                <h5 className="lg:mt-3 lg:mb-6 text-xl lg:text-2xl tracking-tight text-heading">
+                  Sedan Detailing
+                </h5>
                 <div className="flex justify-between">
-                  <h5 className="text-lg font-semibold">From $140</h5>
+                  <h5 className="text-md lg:text-lg font-semibold">
+                    From $140
+                  </h5>
                 </div>
               </div>
             </div>
           </div>
-          <div className="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm">
-            <a href="#">
-              <img
-                className="rounded-t-lg"
-                src="suv interior.jpg"
-                alt="SUV image"
-              />
-            </a>
+          <div className="lg:max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm mb-4 lg:mb-0">
+            <img
+              className="rounded-t-lg"
+              src="suv interior.jpg"
+              alt="SUV image"
+            />
             <div className="p-5">
               <img
                 className="w-10 h-10 rounded-full p-1"
@@ -71,25 +69,23 @@ export default function Home() {
                 alt="Rounded sedan avatar"
               />
               <div className="text-left">
-                <a href="#">
-                  <h5 className="mt-3 mb-6 text-2xl tracking-tight text-heading">
-                    SUV Detailing
-                  </h5>
-                </a>
+                <h5 className="lg:mt-3 lg:mb-6 text-xl lg:text-2xl tracking-tight text-heading">
+                  SUV Detailing
+                </h5>
                 <div className="flex justify-between">
-                  <h5 className="text-lg font-semibold">From $150</h5>
+                  <h5 className="text-md lg:text-lg font-semibold">
+                    From $150
+                  </h5>
                 </div>
               </div>
             </div>
           </div>
-          <div className="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm">
-            <a href="#">
-              <img
-                className="rounded-t-lg"
-                src="benz-minivan-interior.jpeg"
-                alt="Benz minivan image"
-              />
-            </a>
+          <div className="lg:max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm">
+            <img
+              className="rounded-t-lg"
+              src="benz-minivan-interior.jpeg"
+              alt="Benz minivan image"
+            />
             <div className="p-5">
               <img
                 className="w-10 h-10 rounded-full p-1"
@@ -97,13 +93,13 @@ export default function Home() {
                 alt="Rounded sedan avatar"
               />
               <div className="text-left">
-                <a href="#">
-                  <h5 className="mt-3 mb-6 text-2xl tracking-tight text-heading">
-                    Minivan Detailing
-                  </h5>
-                </a>
+                <h5 className="lg:mt-3 lg:mb-6 text-xl lg:text-2xl tracking-tight text-heading">
+                  7-Seater Detailing
+                </h5>
                 <div className="flex justify-between">
-                  <h5 className="text-lg font-semibold">From $200</h5>
+                  <h5 className="text-md lg:text-lg font-semibold">
+                    From $160
+                  </h5>
                 </div>
               </div>
             </div>
@@ -113,10 +109,12 @@ export default function Home() {
       {/* Book Now */}
       <div>
         <div className="block bg-[url(/aehra-suv-interior-view.jpg)] bg-no-repeat bg-cover bg-bottom">
-          <div className="bg-linear-to-r from-black to-transparent py-16 px-14">
-            <div className="flex-col max-w-1/3">
-              <h2 className="text-sm">YOUR VEHICLE DESERVES THE BEST</h2>
-              <h5 className="mb-3 text-4xl pt-3 pb-2 font-semibold tracking-tight text-heading leading-10">
+          <div className="bg-linear-to-r from-black to-transparent py-8 lg:py-16 px-7 lg:px-14">
+            <div className="w-full lg:max-w-1/3">
+              <h2 className="text-lg lg:text-sm font-bold lg:font-normal">
+                YOUR VEHICLE DESERVES THE BEST
+              </h2>
+              <h5 className="mb-3 text-2xl lg:text-4xl pt-3 pb-2 font-semibold tracking-tight text-heading leading-10">
                 Book Your Detailing Appointment Today
               </h5>
               <p className="text-body mb-6">
