@@ -30,7 +30,7 @@ project root and set the EmailJS values:
 ```dotenv
 NEXT_PUBLIC_SERVICE_ID=your_emailjs_service_id
 NEXT_PUBLIC_TEMPLATE_ID=your_emailjs_template_id
-NEXT_PUBLIC_EMAILJS_PUBLIC_API_KEY=your_emailjs_public_key
+NEXT_PUBLIC_API_KEY=your_emailjs_public_key
 ```
 
 These `NEXT_PUBLIC_` values are made available to browser code. Use only the

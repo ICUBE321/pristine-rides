@@ -8,8 +8,8 @@ const AppointmentSchema = z.object({
   make: z.string(),
   model: z.string(),
   year: z.string(),
-  service: z.string(),
-  date: z.string(),
+  service: z.string().nonempty(),
+  date: z.iso.datetime({ local: true }),
   message: z.string(),
   promo: z.boolean(),
 });
