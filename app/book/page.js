@@ -22,7 +22,7 @@ export default function Book() {
     const model = formData.get("model");
     const year = formData.get("year");
     const service = formData.get("selectedService");
-    const date = new Date(formData.get("datetime")).toLocaleString();
+    const date = formData.get("datetime");
     const message = formData.get("message");
     const promo = formData.has("remember");
 
@@ -245,7 +245,7 @@ export default function Book() {
             className="border border-gray-300 rounded-md text-heading text-sm w-full p-3.5 placeholder:text-body mb-4"
             placeholder="Any special requests or details..."
           ></textarea>
-          <label htmlFor="remember" className="flex items-center mb-5">
+          <label htmlFor="remember" className="hidden flex items-center mb-5">
             <input
               id="remember"
               name="remember"
