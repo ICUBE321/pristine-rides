@@ -9,6 +9,10 @@ import {
 
 export default function Book() {
   const [bookingStatus, setBookingStatus] = useState(false);
+  const [formErrorState, setFormErrorState] = useState({
+    state: false,
+    fields: [],
+  });
 
   const submitBooking = async (e) => {
     e.preventDefault();
@@ -45,6 +49,7 @@ export default function Book() {
       if (sendEmailResponse.status == 200) {
         form.reset();
         setBookingStatus(true);
+        setFormErrorState({ state: false });
       } else {
         console.error(
           "Failed emailing with status: ",
@@ -56,7 +61,20 @@ export default function Book() {
       appointmentValidated.issues
         ? console.error(appointmentValidated.issues)
         : console.error(appointmentValidated.error);
+      console.error(appointmentValidated.issues[0].path);
+      const formState = {
+        state: true,
+        fields: appointmentValidated.issues[0].path,
+      };
+      setFormErrorState(formState);
     }
+  };
+
+  const fieldHasError = (fieldName) => {
+    if (formErrorState.state) {
+      return formErrorState.fields?.includes(fieldName);
+    }
+    return false;
   };
 
   return (
@@ -98,7 +116,7 @@ export default function Book() {
             <div className="mb-5 basis-1/2 mr-6">
               <label
                 htmlFor="name"
-                className="block mb-2.5 text-sm font-medium text-heading"
+                className={`block mb-2.5 text-sm font-medium text-heading ${fieldHasError("name") && "text-red-500"}`}
               >
                 Full Name
               </label>
@@ -106,7 +124,7 @@ export default function Book() {
                 type="text"
                 id="name"
                 name="name"
-                className="border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body"
+                className={`border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body ${fieldHasError("name") && "border-red-600 bg-red-300"}`}
                 placeholder="Enter your name"
                 required
               />
@@ -114,7 +132,7 @@ export default function Book() {
             <div className="mb-5 basis-1/2">
               <label
                 htmlFor="email"
-                className="block mb-2.5 text-sm font-medium text-heading"
+                className={`block mb-2.5 text-sm font-medium text-heading ${fieldHasError("email") && "text-red-500"}`}
               >
                 Email
               </label>
@@ -122,7 +140,7 @@ export default function Book() {
                 type="email"
                 id="email"
                 name="email"
-                className="border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body"
+                className={`border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body ${fieldHasError("email") && "border-red-600 bg-red-300"}`}
                 placeholder="you@example.com"
                 required
               />
@@ -132,7 +150,7 @@ export default function Book() {
             <div className="mb-5 basis-1/2 mr-6">
               <label
                 htmlFor="phone"
-                className="block mb-2.5 text-sm font-medium text-heading"
+                className={`block mb-2.5 text-sm font-medium text-heading ${fieldHasError("phone") && "text-red-500"}`}
               >
                 Phone Number
               </label>
@@ -140,7 +158,7 @@ export default function Book() {
                 type="tel"
                 id="phone"
                 name="phone"
-                className="border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body"
+                className={`border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body ${fieldHasError("phone") && "border-red-600 bg-red-300"}`}
                 placeholder="+16134696082"
                 required
               />
@@ -217,7 +235,7 @@ export default function Book() {
             <div className="mb-5 basis-1/2">
               <label
                 htmlFor="datetime"
-                className="block mb-2.5 text-sm font-medium text-heading"
+                className={`block mb-2.5 text-sm font-medium text-heading ${fieldHasError("date") && "text-red-500"}`}
               >
                 Preferred Date & Time
               </label>
@@ -226,7 +244,7 @@ export default function Book() {
                 id="datetime"
                 name="datetime"
                 min={getMinimumDateTime()}
-                className="border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body"
+                className={`border border-gray-300 rounded-md text-heading text-sm w-full px-3 py-2.5 placeholder:text-body ${fieldHasError("date") && "border-red-600 bg-red-300"}`}
                 placeholder="Select date and time"
                 required
               />
@@ -256,6 +274,10 @@ export default function Book() {
               I agree to receive promotional emails (optional)
             </p>
           </label>
+          <div className="p-4 mb-4 text-sm text-red-800 rounded-md bg-red-400">
+            <span className="font-semibold">Submission errors!</span> Fix the
+            red fields and try submitting again.
+          </div>
           <button
             type="submit"
             className="text-white bg-electric-blue box-border border rounded-md w-full text-sm font-bold px-4 py-2.5 hover:bg-blue-800 cursor-pointer"
